@@ -8,11 +8,14 @@ class Job(Enum):
     Medic = 3
     Cheff = 4
 
-class Traits(Enum):
-    Ugly = 1
-    Dumb = 2
-    Smart = 3
-    Pretty = 4
+class Traits:
+    class Appearence_Traits(Enum):
+        Ugly = 1
+        Pretty = 2
+    class Inteligence_Traits(Enum):
+        Smart = 3
+        Dumb = 4
+
 
 class Genders(Enum):
     Male = 0
@@ -23,7 +26,7 @@ class Citizen:
     def __init__(self, first_name: str, last_name: str, age: int, job: Job, traits: list, happiness: int, hunger: int,gender: Genders):
         if not isinstance(job, Job):
             raise ValueError("Job must be an instance of the Job enumeration.")
-        if not all(isinstance(trait, Traits) for trait in traits):
+        if not all(isinstance(trait, (Traits.Appearence_Traits, Traits.Inteligence_Traits)) for trait in traits):
             raise ValueError("Traits must be valid Traits enums!")
         if not isinstance(gender, Genders):
             raise ValueError("Gender must be an instance of the Gender enumeration.")

@@ -4,12 +4,6 @@ from Classes import *
 #Temporary array to hold citizens, may change to SQL database
 people = []
 
-# Creating a Citizen instance with a Job and an array of Traits, forgot gender, I added it
-joe = Citizen("Joe", "Doe", 30, Job.Builder, [Traits.Pretty, Traits.Smart], 75, 50,Genders.Male)
-# Accessing Citizen attributes
-print(joe.first_name)
-print(joe.job)
-print(joe.traits)
 
 def generate_name(gender):
     first_name = ""
@@ -24,14 +18,15 @@ def generate_name(gender):
 def generate_job():
     return random.choice(list(Job))
 
-def generate_traits():
-    contradictory_pairs = {('Ugly', 'Pretty'), ('Smart', 'Dumb')}
-    traits = set()
-    while len(traits) < 3:
-        new_trait = generate_traits()
-        if all((new_trait, prev_trait) not in contradictory_pairs and (prev_trait, new_trait) not in contradictory_pairs for prev_trait in traits):
-            traits.add(new_trait)
-    return list(traits)
+def generate_traits(amount):
+    traits = []
+    possible_classes = [Traits.Appearence_Traits,Traits.Inteligence_Traits]
+    for _ in range(amount):
+        class_to_check = random.choice(possible_classes)
+        possible_classes.remove(class_to_check)
+        trait = random.choice(list(class_to_check))
+        traits.append(trait)
+    return traits
 
 def enum_to_string(enum_value, enum_class):
     if isinstance(enum_value, enum_class):
@@ -44,16 +39,9 @@ def generate_person():
     first_name, last_name = generate_name(gender)
     age = random.randint(16, 50)
     job = generate_job()
-
-    all_traits = list(Traits)
-    contradictory_pairs = {('Ugly', 'Pretty'), ('Smart', 'Dumb')}
-
-    for pair in contradictory_pairs:
-        if all(trait in all_traits for trait in pair):
-            trait_to_remove = random.choice(pair)
-            all_traits.remove(trait_to_remove)
-
-    traits = random.sample(all_traits, 3)
+    traits = []
+    num_of_traits = random.randint(1,2)
+    traits = generate_traits(num_of_traits)
 
     happiness = random.randint(20, 80)
     hunger = random.randint(20, 80)

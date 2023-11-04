@@ -2,6 +2,13 @@ from Classes import *
 import random
 from main import *
 
+# Creating a Citizen instance with a Job and an array of Traits, forgot gender, I added it
+joe = Citizen("Joe", "Doe", 30, Job.Builder, [Traits.Appearence_Traits.Pretty, Traits.Inteligence_Traits.Smart], 75, 50,Genders.Male)
+# Accessing Citizen attributes
+print(joe.first_name)
+print(joe.job)
+print(joe.traits)
+
 #name test
 for i in range(10):
     chosen_gender = Genders.Male
@@ -23,13 +30,13 @@ for i in range(10):
 #traits test
 print("trait test")
 for i in range(10):
-    # Similar to job test, but this time using generate_traits and using f strings to comma separate the three generated traits
-    print(f"{enum_to_string(generate_traits(),Traits)},{enum_to_string(generate_traits(),Traits)},{enum_to_string(generate_traits(),Traits)}")
-
+    traits = generate_traits(1)
+    enum_class = traits[0].__class__
+    print(enum_to_string(traits[0],enum_class))
 # Test of generating person
 print("person test")
 for i in range(3):
     citizen = generate_person()
-    traits_str = ", ".join(enum_to_string(trait, Traits) for trait in citizen.traits)
+    traits_str = ", ".join(enum_to_string(trait, trait.__class__) for trait in citizen.traits)
     print(f"Name: {citizen.first_name} {citizen.last_name}\nAge: {citizen.age}\nJob: {enum_to_string(citizen.job, Job)}\nTraits: {traits_str}\nHunger: {citizen.hunger}\nHappiness: {citizen.happiness}\nGender: {enum_to_string(citizen.gender, Genders)}")
 
